@@ -1,0 +1,216 @@
+n and authority state.
+14. External command returns only through a governed handback.
+15. The complete decision, dispatch, response and transition sequence remains available as evidence.
+
+**FreeFlight is bounded mission continuation, not uncontrolled autonomy.**
+
+---
+
+## Core Product Capabilities
+
+### Command-Authority Governance
+
+In governed modes, SnapBurst determines whether the active authority is valid for the proposed action, aircraft and operating state.
+
+The presence of a communication link alone does not establish valid authority.
+
+The absence of a link does not automatically remove every previously authorised mission condition.
+
+SnapBurst evaluates the authority that actually remains applicable at the time of the proposed action.
+
+### Authorised-Envelope Enforcement
+
+Autonomous proposals and FreeFlight Recovery actions are evaluated against approved operating conditions before execution.
+
+The authorised envelope may include:
+
+* aircraft identity;
+* mission identity;
+* permitted task;
+* operating area;
+* command source;
+* current mode;
+* aircraft state;
+* mission state;
+* communications condition;
+* and other defined operating constraints.
+
+Proposals outside the authorised envelope are rejected or held before they reach the flight controller.
+
+### Governed FreeFlight
+
+Aircraft operations may continue through simulated C2 interruption without treating missing command authority as active control.
+
+Continuation is limited to actions that remain authorised under the approved mission and operating envelope.
+
+### Controlled Restoration and Handback
+
+Restored communications do not automatically override the aircraft’s current state.
+
+The returning command source must be verified.
+
+The current aircraft state, mission state and active authority must be reconciled before external control is restored.
+
+Authority is returned through a governed transition rather than an uncontrolled switch.
+
+### State Continuity
+
+Aircraft, mission, authority and governance state are retained across command-loss and restoration events.
+
+This allows SnapBurst to evaluate proposed actions against the state that actually exists, rather than treating communications restoration as a return to an earlier or assumed condition.
+
+### Multi-Aircraft Isolation
+
+Each aircraft lane maintains its own:
+
+* identity;
+* mission state;
+* aircraft state;
+* command source;
+* authority;
+* governance decision;
+* dispatch path;
+* aircraft response;
+* and evidence record.
+
+A condition affecting one aircraft must not improperly alter another aircraft’s authority, state, command path or governance result.
+
+### Decision Evidence
+
+Governance decisions, state transitions, commands and aircraft responses are correlated for:
+
+* testing;
+* operational assurance;
+* regulatory engagement;
+* programme review;
+* incident analysis;
+* post-operation investigation;
+* and future certification evidence.
+
+The evidence record distinguishes between what was proposed, what was authorised, what was dispatched and what the aircraft acknowledged or executed.
+
+---
+
+## Position Within the Aircraft System
+
+SnapBurst does not replace the aircraft platform.
+
+Existing aircraft and OEM systems continue to provide:
+
+* the airframe;
+* propulsion;
+* the flight controller;
+* communications;
+* ground-control interfaces;
+* mission planning;
+* mission autonomy;
+* navigation;
+* perception;
+* detect-and-avoid capability;
+* sensors;
+* payload systems;
+* and aircraft-specific safety functions.
+
+SnapBurst adds:
+
+* command-authority governance;
+* authorised-envelope enforcement;
+* C2-loss handling;
+* bounded FreeFlight continuation;
+* governed command restoration;
+* controlled handback;
+* aircraft-lane attribution;
+* deterministic governance outcomes;
+* and correlated decision evidence.
+
+The operating relationship is:
+
+**Sensors detect.
+Mission autonomy proposes.
+SnapBurst governs.
+The flight controller executes permitted actions.
+Evidence records what occurred.**
+
+SnapBurst may govern an avoidance action proposed by an external perception or detect-and-avoid system.
+
+It does not claim to detect the obstacle, classify the hazard or calculate the avoidance path itself.
+
+Those functions remain with the relevant perception, autonomy or detect-and-avoid system.
+
+SnapBurst governs whether the resulting proposed aircraft action is authorised to proceed.
+
+---
+
+## Integration Position
+
+The current implementation and validation environment uses PX4 and ROS 2.
+
+SnapBurst is intended to integrate with existing aircraft, autonomy and fleet systems rather than requiring those systems to be replaced.
+
+A bounded integration would typically connect:
+
+* aircraft identity;
+* aircraft state;
+* mission identity;
+* mission state;
+* command-source information;
+* authority information;
+* mission-command inputs;
+* autonomous action proposals;
+* communications state;
+* flight-controller command interfaces;
+* aircraft acknowledgements;
+* and aircraft responses.
+
+Within the governed autonomy path, SnapBurst applies governance at the aircraft-command boundary.
+
+It determines whether a proposed action may proceed and creates a correlated evidence record linking the proposal, authority, governance outcome, command dispatch and aircraft response.
+
+Within the current PX4 implementation, the operating relationship is:
+
+**Autonomy proposes. SnapBurst governs. PX4 executes permitted actions.**
+
+The same governance model is intended to be adapted to other aircraft, autonomy and fleet architectures through bounded integration interfaces.
+
+---
+
+## Current Validation Position
+
+SnapBurst has been exercised in PX4 and ROS 2 software-in-the-loop environments.
+
+The current evidence supports:
+
+* governed command decisions before aircraft-command dispatch;
+* Permit, Reject and Hold governance outcomes;
+* controlled operation through simulated C2 interruption;
+* bounded FreeFlight continuation;
+* prevention of unauthorised command dispatch;
+* governed restoration of external command;
+* controlled handback;
+* aircraft-state continuity;
+* mission-state continuity;
+* authority-state continuity;
+* independent multi-aircraft attribution;
+* independent multi-aircraft isolation;
+* repeated scenario execution;
+* and correlated aircraft-command acknowledgement.
+
+The validation work demonstrates the current software behaviour inside the tested simulation environment.
+
+Detailed test results, execution campaigns, scenario outcomes and numerical evidence are maintained separately in the **SnapBurst Validated Evidence Summary**.
+
+That evidence document is the authoritative location for specific test counts, execution durations, aircraft counts and validation results.
+
+---
+
+## Outside Current Claim Boundary
+
+The current evidence does not establish:
+
+* certified BVLOS operation;
+* regulatory approval for operational deployment;
+* physical-flight performance;
+* hardware-in-the-loop performance;
+* aircraft-specific integration performance;
+* operational performance on a third-party aircraft;
+* detect-and-avoid performan
