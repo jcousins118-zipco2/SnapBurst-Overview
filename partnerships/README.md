@@ -1,0 +1,1 @@
+# SnapBurst Partner Collaboration Scenario
