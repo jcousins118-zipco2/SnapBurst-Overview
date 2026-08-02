@@ -1,0 +1,26 @@
+name: SITL signed validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_key:
+        description: "Optional idempotent run key"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  run-sitl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out worker
+        uses: actions/checkout@v4
+
+      - name: Run isolated SITL validation
+        env:
+          SITL_RUNNER_URL: https://snapburst-funding-pipeline.jaycee1002.chatgpt.site
+          SITL_RUNNER_PRIVATE_KEY_PEM: ${{ secrets.SITL_RUNNER_PRIVATE_KEY_PEM }}
+          SITL_RUNNER_RUN_KEY: ${{ inputs.run_key }}
+        run: node scripts/run-sitl-signed.mjs
